@@ -140,6 +140,41 @@ Use this sequence:
 4. If no kill criterion fails, review whether all 5 prompts align
 5. Only then consider sizing up
 
+## Excel Tracking Requirement
+
+Keep an Excel workbook that tracks all completed analysis-chain findings.
+
+This tracker is part of the workflow, not an optional add-on.
+
+Use these rules:
+
+- Use one workbook for the running log of findings
+- Create a new worksheet each week
+- Name each worksheet with the ISO week format `YYYY-W##`
+- Add every fully reviewed ticker to that week's worksheet
+- If a ticker is rejected early, still log it and mark the chain as incomplete or failed
+- Do not overwrite prior weekly sheets
+
+Each weekly sheet should capture at least:
+
+- `Date`
+- `Ticker`
+- `Prompt 1 Regime`
+- `Prompt 2 Total Score`
+- `Prompt 2 Moat & Quality`
+- `Prompt 3 Valuation Rank`
+- `Prompt 4 Decay Score`
+- `Prompt 4 Velocity`
+- `Prompt 5 Exit Ready`
+- `Chain Status`
+- `Final Decision`
+- `Sizing Stance`
+- `Key Risk`
+- `Key Bull Point`
+- `Verification Notes`
+
+If the workbook or current weekly sheet does not exist yet, create it before finalizing the analysis.
+
 ## Output Format
 
 Structure the output in this order:
