@@ -135,10 +135,22 @@ Always verify important numbers against the underlying filing, release, or trans
 Use this sequence:
 
 1. Run the agents in order
+2. Log the findings from each completed prompt into the Excel tracker immediately
 2. Check hard kill criteria
 3. If any hard kill criterion fails, stop and reject
-4. If no kill criterion fails, review whether all 5 prompts align
-5. Only then consider sizing up
+4. If no kill criterion fails, continue directly to the next agent in the chain
+5. After all required agents are complete, review whether all 5 prompts align
+6. Only then consider sizing up
+
+## Workflow Continuation Rule
+
+Always log your findings after each prompt.
+
+Do not wait until the full chain is complete before updating the tracker.
+
+If there is no kill signal after a prompt, continue to the next agent automatically.
+
+Only stop the chain early when a hard kill criterion has been triggered or when a required input cannot be verified well enough to proceed responsibly.
 
 ## Excel Tracking Requirement
 
@@ -148,17 +160,25 @@ This tracker is part of the workflow, not an optional add-on.
 
 Use these rules:
 
-- Use one workbook for the running log of findings
+- Use exactly one workbook for the running log of findings
 - Create a new worksheet each week
 - Name each worksheet with the ISO week format `YYYY-W##`
 - Add every fully reviewed ticker to that week's worksheet
 - If a ticker is rejected early, still log it and mark the chain as incomplete or failed
 - Do not overwrite prior weekly sheets
+- Always write updates into the original workbook rather than maintaining parallel workbook versions
+- If the workbook is locked or open in a way that blocks saving, stop and tell the user to unlock or close it before continuing
 
 Each weekly sheet should capture at least:
 
 - `Date`
 - `Ticker`
+- `Current Price (EUR)`
+- `Buy Price (EUR)`
+- `Owned Shares`
+- `Total Investment (EUR)`
+- `Net Change (EUR)`
+- `Trading Currency`
 - `Prompt 1 Regime`
 - `Prompt 2 Total Score`
 - `Prompt 2 Moat & Quality`
@@ -166,9 +186,30 @@ Each weekly sheet should capture at least:
 - `Prompt 4 Decay Score`
 - `Prompt 4 Velocity`
 - `Prompt 5 Exit Ready`
+- `Prompt 5 Exit Ready (EUR)`
 - `Chain Status`
 - `Final Decision`
 - `Sizing Stance`
+
+Use stock-oriented sizing labels in the tracker:
+
+- `Standard share position`
+- `Small share position`
+- `Reduced share position`
+- `Very small share position`
+- `Watch only`
+
+For portfolio-tracking columns, only use real-time prices from the actual ticker being tracked.
+
+- Do not use stale historical snapshots when a current quote is available.
+- Do not substitute converted proxy prices from another listing unless the user explicitly approves that fallback.
+- If a real-time price for the tracked ticker cannot be verified, stop and tell the user instead of writing an estimated placeholder into the workbook.
+
+If the user explicitly approves a delayed-quote fallback:
+
+- Use the latest verifiable delayed quote for the actual ticker being tracked.
+- If the tracker price column is in EUR and the ticker trades in another currency, convert using the matching-date ECB reference rate when available.
+- Record the quote date used in that row's verification note.
 - `Key Risk`
 - `Key Bull Point`
 - `Verification Notes`
