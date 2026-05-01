@@ -199,6 +199,16 @@ Use stock-oriented sizing labels in the tracker:
 - `Very small share position`
 - `Watch only`
 
+Default portfolio sizing map for stock positions:
+
+- `Watch only` = `0%`
+- `Very small share position` = `0.5% to 1.5%`
+- `Small share position` = `1.5% to 3%`
+- `Reduced share position` = `2% to 4%`
+- `Standard share position` = `4% to 6%`
+
+If the user provides a portfolio size, interpret the sizing stance using these ranges unless the user explicitly overrides them.
+
 For portfolio-tracking columns, only use real-time prices from the actual ticker being tracked.
 
 - Do not use stale historical snapshots when a current quote is available.
@@ -208,8 +218,11 @@ For portfolio-tracking columns, only use real-time prices from the actual ticker
 If the user explicitly approves a delayed-quote fallback:
 
 - Use the latest verifiable delayed quote for the actual ticker being tracked.
+- The delayed quote must be no older than `1 trading day` back.
 - If the tracker price column is in EUR and the ticker trades in another currency, convert using the matching-date ECB reference rate when available.
 - Record the quote date used in that row's verification note.
+
+Do not use quotes that are older than `1 trading day` for the portfolio-tracking columns unless the user explicitly overrides this rule again.
 - `Key Risk`
 - `Key Bull Point`
 - `Verification Notes`
